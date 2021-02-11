@@ -12,8 +12,7 @@ RUN git clone https://github.com/MASQ-Project/Node.git src
 RUN cd /src/node/ && \
     cargo build --release --verbose
 RUN mkdir /build && \
-    cp /src/node/target/release/MASQNode \
-       /src/node/target/release/MASQNodeW /build/
+    cp /src/node/target/release/MASQNode /build/
 
 # Compile masq
 RUN cd /src/masq/ && \
@@ -23,8 +22,7 @@ RUN cd /src/masq/ && \
 # Compile dns_utility
 RUN cd /src/dns_utility/ && \
     cargo build --release --verbose && \
-    cp /src/dns_utility/target/release/dns_utility \
-       /src/dns_utility/target/release/dns_utilityw /build/
+    cp /src/dns_utility/target/release/dns_utility /build/
 
 # Compile port_exposer
 RUN cd /src/port_exposer/ && \
