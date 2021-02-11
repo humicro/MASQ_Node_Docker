@@ -1,4 +1,39 @@
-FROM ubuntu:20.04
+# *** Build Stage ***
+FROM rust:latest AS builder
+
+# Update OS
+RUN apt-get update && \
+    apt-get -y upgrade
+
+# Download MASQ Node source
+RUN git clone https://github.com/MASQ-Project/Node.git src
+
+# Compile MASQNode
+RUN cd /src/node/ && \
+    cargo build --release --verbose
+RUN mkdir /build && \
+    cp /src/node/target/release/MASQNode \
+       /src/node/target/release/MASQNodeW /build/
+
+# Compile masq
+RUN cd /src/masq/ && \
+    cargo build --release --verbose && \
+    cp /src/node/target/release/masq /build/
+
+# Compile dns_utility
+RUN cd /src/dns_utility/ && \
+    cargo build --release --verbose && \
+    cp /src/dns_utility/target/release/dns_utility \
+       /src/dns_utility/target/release/dns_utilityw /build/
+
+# Compile port_exposer
+RUN cd /src/port_exposer/ && \
+    cargo build --release --verbose && \
+    cp /src/port_exposer/target/release/port_exposer /build/
+
+
+# *** Serve Stage ***
+FROM debian:buster-slim as server
 
 LABEL maintainer="microoo <hu@microoo.net>"
 
@@ -6,33 +41,13 @@ LABEL maintainer="microoo <hu@microoo.net>"
 RUN apt-get update && \
     apt-get -y upgrade
 
-# Install required packages
-RUN apt-get install -y sudo build-essential curl git libssl-dev
-
 # Create a sudo user
-RUN adduser --disabled-password --gecos '' node
-RUN adduser node sudo
-RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN apt-get install sudo -y && \
+    adduser --disabled-password --gecos '' node && \
+    adduser node sudo && \
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER node
-WORKDIR /home/node/
+WORKDIR /home/node
 
-# Install Rust
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs --output rustup.sh && \
-	sh ./rustup.sh -y
-ENV PATH="/home/node/.cargo/bin:$PATH"
-
-# Download MASQ Node source code & compile
-RUN git clone --depth 1 https://github.com/MASQ-Project/Node.git src && \
-    cd ~/src/node/ && cargo build --release --verbose && \
-    cd ~/src/masq/ && cargo build --release --verbose && \
-    cd ~/src/dns_utility/ && cargo build --release --verbose && \
-    cd ~/src/port_exposer/ && cargo build --release --verbose
-
-# Collect compiled binaries to ~/bin/
-RUN mkdir ~/bin/ && \
-    cp ~/src/node/target/release/MASQNode ~/bin/ && \
-    cp ~/src/node/target/release/MASQNodeW ~/bin/ && \
-    cp ~/src/node/target/release/masq ~/bin/ && \
-    cp ~/src/dns_utility/target/release/dns_utility ~/bin/ && \
-    cp ~/src/dns_utility/target/release/dns_utilityw ~/bin/ && \
-    cp ~/src/port_exposer/target/release/port_exposer ~/bin/
+# Install MASQ Node
+COPY --from=builder --chown=node:node /build/* /usr/local/bin/
