@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  masq-compile-linux:
+    build: compile-linux
+    image: masq-compile-linux
+    command: sh -c ./compile-linux.sh
+    volumes:
+      - ./builds:/home/node/builds
+  masq-run-node:
+    build:
+      context: .
+      dockerfile: run-node/Dockerfile
+    image: masq-run-node
+    command: bash

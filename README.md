@@ -1,24 +1,56 @@
-# MASQ Node Docker
+# MASQ Node Docker Series
 
-Compile and run the latest version of MASQ Node within a Docker container.
+A collection of Docker containers for `MASQ Node` compilation, testing and hosting.
 
-## Build Docker
+## Build Docker Images
 
-Here I name the docker image as `masq-node`, but you can use any name as you like.
+In order to perform tasks in next steps, you need to build corresponding Docker images first.
 
-The following command spins up a rust compiler machine, download the latest `MASQ Node` source code, compile all the binaries, and copy them over to a `Debian Slim` lightweight docker server.
-
-```console
-$ docker build -t masq-node .
-```
-
-## Examine MASQ Node binaries
+You can build individual images for your specific tasks:
 
 ```console
-$ docker run -it masq-node MASQNode --help
-$ docker run -it masq-node masq --help
+# "masq-compile-linux" as an example
+$ docker-compose build masq-compile-linux
 ```
 
-## Run MASQ Node
+Or, you can build these images all at once:
 
-*To be continued...*
+```console
+$ docker-compose build
+```
+
+## Compilation Tasks
+
+### Linux x86-64
+
+This task compiles `MASQ Node` to the most common architecture of Linux: x86-64.
+
+```console
+# If you have not done so, build the Docker image "masq-compile-linux" first
+$ docker-compose build masq-compile-linux
+
+# Compile MASQ Node to Linux x86-64
+$ docker-compose run masq-compile-linux
+```
+
+Compiled `MASQ Node` binaries are located under directory `builds/linux-x86-64`.
+
+## Testing/Hosting Tasks
+
+Spin out a `Debian Slim` lightweight docker server to run the compiled `MASQ Node` binaries for testing and hosting.
+
+Please make sure you have already performed the "masq-compile-linux" task to have `MASQ Node` binaries under `builds/linux-x86-64`.
+
+```console
+# If you have not done so, build the Docker image "masq-run-node" first
+$ docker-compose build masq-run-node
+
+# Log into the docker server
+$ docker-compose run masq-run-node
+
+# Examine MASQ Node binaries (under docker server)
+$ MASQNode --help
+$ masq --help
+```
+
+*More to come ...*
