@@ -8,14 +8,14 @@ In order to perform tasks in next steps, you need to build corresponding Docker 
 
 You can build individual images for your specific tasks:
 
-```console
+```bash
 # "masq-compile-linux" as an example
 $ docker-compose build masq-compile-linux
 ```
 
 Or, you can build these images all at once:
 
-```console
+```bash
 $ docker-compose build
 ```
 
@@ -25,7 +25,7 @@ $ docker-compose build
 
 This task compiles `MASQ Node` to the most common architecture of Linux: x86-64.
 
-```console
+```bash
 # If you have not done so, build the Docker image "masq-compile-linux" first
 $ docker-compose build masq-compile-linux
 
@@ -41,7 +41,7 @@ Spin out a `Debian Slim` lightweight docker server to run the compiled `MASQ Nod
 
 Please make sure you have already performed the "masq-compile-linux" task to have `MASQ Node` binaries under `builds/linux-x86-64`.
 
-```console
+```bash
 # If you have not done so, build the Docker image "masq-run-node" first
 $ docker-compose build masq-run-node
 
