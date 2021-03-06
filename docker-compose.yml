@@ -7,6 +7,7 @@ services:
     command: sh -c ./compile-linux.sh
     volumes:
       - ./builds:/home/node/builds
+      - .cargo/registry:/home/node/.cargo/registry
   masq-run-node:
     build:
       context: .

@@ -1,2 +1,4 @@
 builds/*
 !builds/README.md
+.cargo/registry/*
+!.cargo/registry/README.md
