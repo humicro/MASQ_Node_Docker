@@ -7,7 +7,7 @@ rustup update stable
 mkdir -p ~/builds/linux-x86-64
 rm -r ~/builds/linux-x86-64/*
 # Download MASQ Node source
-git clone https://github.com/MASQ-Project/Node.git src
+git clone --depth 1 https://github.com/MASQ-Project/Node.git src
 # Compile MASQNode
 cd ~/src/node
 cargo build --release --verbose
