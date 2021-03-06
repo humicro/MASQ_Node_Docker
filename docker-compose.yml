@@ -14,3 +14,10 @@ services:
       dockerfile: run-node/Dockerfile
     image: masq-run-node
     command: bash
+  masq-compile-pi:
+    build: compile-pi
+    image: masq-compile-pi
+    command: sh -c ./compile-pi.sh
+    volumes:
+      - ./builds:/home/node/builds
+      - .cargo/registry:/home/node/.cargo/registry

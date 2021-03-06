@@ -33,7 +33,23 @@ $ docker-compose build masq-compile-linux
 $ docker-compose run masq-compile-linux
 ```
 
-Compiled `MASQ Node` binaries are located under directory `builds/linux-x86-64`.
+Compiled `MASQ Node` `x86-64` binaries are located under directory `builds/linux-x86-64`.
+
+### Raspberry Pi
+
+This task cross compiles `MASQ Node` to Raspberry Pi.
+
+```bash
+# If you have not done so, build the Docker image "masq-compile-pi" first
+$ docker-compose build masq-compile-pi
+
+# Compile MASQ Node to Raspberry Pi
+$ docker-compose run masq-compile-pi
+```
+
+Compiled `MASQ Node` `arm6` binaries are located under directory `builds/rpi-arm6`.
+
+This build targets `arm6` architecture (Raspberry Pi 1 & Zero), but should also be compatible with newer versions (Raspberry Pi 2, 3 & 4). You are recommended to run these binaries using the latest official operating system [`Raspberry Pi OS 32-bit`](https://www.raspberrypi.org/software/operating-systems/#raspberry-pi-os-32-bit).
 
 ## Testing/Hosting Tasks
 
