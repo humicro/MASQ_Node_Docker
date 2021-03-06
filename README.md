@@ -2,6 +2,8 @@
 
 A collection of Docker containers for `MASQ Node` compilation, testing and hosting.
 
+**Note**: These containers have been tested on 64-bit Linux. You are welcome to report any issues on MacOS & Windows.
+
 ## Build Docker Images
 
 In order to perform tasks in next steps, you need to build corresponding Docker images first.
