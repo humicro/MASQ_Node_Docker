@@ -13,7 +13,7 @@ You can build individual images for your specific tasks:
 $ docker-compose build masq-compile-linux
 ```
 
-Or, you can build these images all at once:
+Or, you can build these images all at once (**NOT RECOMMENDED!**):
 
 ```bash
 $ docker-compose build

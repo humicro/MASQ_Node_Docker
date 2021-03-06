@@ -111,7 +111,7 @@ RUN make -j$(nproc)
 RUN make install
 
 # *** Stage 2: Setup Rust Cross Compilation Environment for Raspberry Pi ***
-FROM debian:buster as RUST-PI
+FROM debian:buster AS RUST-PI
 
 LABEL maintainer="microoo <hu@microoo.net>"
 
