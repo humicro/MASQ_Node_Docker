@@ -25,3 +25,7 @@ cp ~/src/dns_utility/target/${RUST_CROSS_TARGET}/release/dns_utility ${BUILD_TAR
 cd ~/src/port_exposer
 cargo build --release --verbose
 cp ~/src/port_exposer/target/${RUST_CROSS_TARGET}/release/port_exposer ${BUILD_TARGET_DIR}/
+# Compile automap
+cd ~/src/automap
+cargo build --release --verbose
+cp ~/src/automap/target/release/automap ${BUILD_TARGET_DIR}/
