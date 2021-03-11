@@ -1,0 +1,126 @@
+# ---------------- Routing ----------------
+
+# The public IP address of your MASQ Node: that is, the IPv4 address at which other Nodes can contact yours.
+# If you're running your Node behind a router, this will be the IP address of the router. If this IP address
+# starts with 192.168 or 10.0, it's a local address rather than a public address, and other Nodes won't be
+# able to see yours. --ip is meaningless except in --neighborhood-mode standard.
+# !!! In this docker, external IP is automatically detected and filled for you.
+ip = ""
+
+# The port this Node will advertise to other Nodes at which clandestine traffic will be received. If you don't
+# specify a clandestine port, the Node will choose an unused one at random on first startup, then use that one
+# for every subsequent run unless you change it by specifying a different clandestine port here.
+# --clandestine-port is meaningless except in --neighborhood-mode standard. Must be between 1025 and 65535
+# [default: last used port]
+# !!! In this docker, please set this value directly at MASQ_CLANDESTINE_PORT together with "ports" in docker-compose.yml
+# Example:
+# masq-run-node:
+#     environment:
+#       - MASQ_CLANDESTINE_PORT=13579
+#     ports:
+#       - "13579:13579"
+clandestine-port = ""
+
+# IP addresses of DNS Servers for host name look-up while providing exit services for other MASQ Nodes (e.g.
+# 1.0.0.1,1.1.1.1,8.8.8.8,9.9.9.9, etc.)
+# !!! In this docker, please set this value directly at DNS_SERVERS in docker-compose.yml
+dns-servers = ""
+
+# This configures the way the Node relates to other Nodes.
+# zero-hop means that your Node will operate as its own MASQ Network and will not communicate with any other
+# Nodes. --ip, --neighbors, and --clandestine-port are incompatible with --neighborhood_mode zero-hop.
+# originate-only means that your Node will not accept connections from any other Node; it will only originate
+# connections to other Nodes. This will reduce your Node's opportunity to route data (it will only ever have
+# two neighbors, so the number of routes it can participate in is limited), it will reduce redundancy in the
+# MASQ Network, and it will prevent your Node from acting as a connection point for other Nodes to get on the
+# Network; but it will enable your Node to operate in an environment where your network hookup is preventing
+# you from accepting connections, and it means that you don't have to forward any incoming ports through your
+# router. --ip and --clandestine_port are incompatible with --neighborhood_mode originate-only.
+# consume-only means that your Node will not accept connections from or route data for any other Node; it will
+# only consume services from the MASQ Network. This mode is appropriate for devices that cannot maintain a
+# constant IP address or stay constantly on the Network. --ip and --clandestine_port are incompatible with
+# --neighborhood_mode consume-only.
+# standard means that your Node will operate fully unconstrained, both originating and accepting connections,
+# both consuming and providing services, and when you operate behind a router, it requires that you forward
+# your clandestine port through that router to your Node's machine. [possible values: zero-hop,
+# originate-only, consume-only, standard]
+neighborhood-mode = "standard"
+
+# One or more Node descriptors for running Nodes in the MASQ Network to which you'd like your Node to connect
+# on startup. A Node descriptor looks like this:
+# gBviQbjOS3e5ReFQCvIhUM3i02d1zPleo1iXg/EN6zQ:86.75.30.9:5542 (initial ':' for testnet) and
+# gBviQbjOS3e5ReFQCvIhUM3i02d1zPleo1iXg/EN6zQ@86.75.30.9:5542 (initial '@' for mainnet)
+# If you have more than one, separate them with commas (but no spaces). There is no default value; if you
+# don't specify a neighbor, your Node will start without being connected to any MASQ Network, although other
+# Nodes will be able to connect to yours if they know your Node's descriptor. --neighbors is meaningless in
+# --neighborhood-mode zero-hop.
+# !!! In this docker, neighbors are automatically fetched and filled for you.
+neighbors = ""
+
+
+# ---------------- Blockchain / Tokenomics ----------------
+
+# The blockchain network MASQ Node will configure itself to use. You must ensure the Ethereum client specified
+# by --blockchain-service-url communicates with the same blockchain network. [possible values: dev,
+# mainnet, ropsten, rinkeby]
+chain = "ropsten"
+
+# The Ethereum client you wish to use to provide Blockchain exit services from your MASQ Node (e.g.
+# http://localhost:8545, https://ropsten.infura.io/v3/YOUR-PROJECT-ID, https://mainnet.infura.io/v3/YOUR-
+# PROJECT-ID).
+# !!! In this docker, it will be automatically filled according to thew INFURA_ID set in docker-compose.yml, if left blank.
+blockchain-service-url = ""
+
+# An Ethereum wallet address. Addresses must begin with 0x followed by 40 hexadecimal digits (case-
+# insensitive). If you already have a derivation-path earning wallet, don't supply this. If you have
+# supplied an earning wallet address before, either don't supply it again or be careful to supply exactly the
+# same one you supplied before.
+# !!! In this docker, please set this value directly at EARNING_WALLET in docker-compose.yml. It will be defauled to MASQ donation wallet address if left blank.
+earning-wallet = ""
+
+# The private key for the Ethereum wallet from which you wish to pay other Nodes for routing and exit
+# services. Mostly this is used for testing; be careful using it for real traffic, because this value is very
+# sensitive: anyone who sees it can use it to drain your consuming wallet. If you use it, don't put it on the
+# command line (the environment is good, the config file is less so), make sure you haven't already set up a
+# consuming wallet with a derivation path, and make sure that you always supply exactly the same private key
+# every time you run the Node. A consuming private key is 64 case-insensitive hexadecimal digits.
+# !!! In this docker, you have to fill this manually.
+# consuming-private-key = ""
+
+# The Gas Price is the amount of Gwei you will pay per unit of gas used in a transaction. If left unspecified,
+# MASQ Node will use the previously stored value (Default 1). Valid range is 1-99 Gwei.
+gas-price = 1
+
+
+# ---------------- Data / Log ----------------
+
+# Directory in which the Node will store its persistent state, including at least its database and by default
+# its configuration file as well.
+# data-directory = ""
+
+# A password or phrase to decrypt the encrypted material in the database, to include your mnemonic seed (if
+# applicable) and your list of previous neighbors. If you don't provide this password, none of the encrypted
+# data in your database will be used.
+# !!! In this docker, a strong password is generated automatically for you, if left blank.
+db-password = ""
+
+# The minimum severity of the logs that should appear in the Node's logfile. You should probably not specify a
+# level lower than the default unless you're doing testing or forensics: a Node at the 'trace' log level
+# generates a lot of log traffic. This will both consume your disk space and degrade your Node's performance.
+# You should probably not specify a level higher than the default unless you have security concerns about
+# persistent logs being kept on your computer: if your Node crashes, it's good to know why. [possible values:
+# off, error, warn, info, debug, trace]
+log-level = "trace"
+
+
+# ---------------- Default Settings You Most Likely Should Not Change ----------------
+
+# The user whose identity Node will assume when dropping privileges after bootstrapping. Since Node refuses to
+# run with root privilege after bootstrapping, you might want to use this if you start the Node as root, or if
+# you start the Node using pkexec or some other method that doesn't populate the SUDO_xxx variables. Use a
+# value like <uid>:<gid>:<home directory>.
+real-user = "1000:1000:/home/node"
+
+# The port at which user interfaces will connect to the Node. Best to accept the default unless you know what
+# you're doing. Must be between 1025 and 65535. [default: 5333]
+ui-port = "5333"

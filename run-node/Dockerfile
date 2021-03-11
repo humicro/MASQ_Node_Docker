@@ -15,5 +15,6 @@ RUN apt-get install sudo -y && \
 USER node
 WORKDIR /home/node
 
-# Install MASQ Node
-COPY --chown=node:node ./builds/linux-x86-64/* /usr/local/bin/
+# Config Node Helper
+RUN sudo apt-get install -y python3 python3-pip && \
+    sudo pip3 install requests tomlkit

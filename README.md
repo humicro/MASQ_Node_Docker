@@ -63,12 +63,13 @@ Please make sure you have already performed the "masq-compile-linux" task to hav
 # If you have not done so, build the Docker image "masq-run-node" first
 $ docker-compose build masq-run-node
 
-# Log into the docker server
-$ docker-compose run masq-run-node
+# (Optionally) Examine MASQ Node binaries
+$ docker-compose run masq-run-node MASQNode --help
+$ docker-compose run masq-run-node masq --help
 
-# Examine MASQ Node binaries (under docker server)
-$ MASQNode --help
-$ masq --help
+# Run MASQNode!
+# It automatically set External IP, DNS, Neighbors, Blockchain Service URL & DB Password for you! But you'd better understand what you are doing!
+$ docker-compose run masq-run-node
 ```
 
 *More to come ...*

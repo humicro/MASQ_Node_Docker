@@ -9,11 +9,22 @@ services:
       - ./builds:/home/node/builds
       - .cargo/registry:/home/node/.cargo/registry
   masq-run-node:
+    environment:
+      - MASQ_CLANDESTINE_PORT=13579
+      - DNS_SERVERS=1.0.0.1,1.1.1.1,8.8.8.8,9.9.9.9
+      - INFURA_ID=f29dff1a240b4583aad2f2c72d372dc0
+      - EARNING_WALLET=0x27d9A2AC83b493f88ce9B4532EDcf74e95B9788d
+    ports:
+      - "13579:13579"
     build:
       context: .
       dockerfile: run-node/Dockerfile
     image: masq-run-node
-    command: bash
+    command: bash -c "python3 helper.py && sudo MASQNode --config-file /home/node/config.toml"
+    volumes:
+      - ./builds/linux-x86-64:/usr/local/bin/
+      - ./run-node/config.toml:/home/node/config.toml
+      - ./run-node/helper.py:/home/node/helper.py
   masq-compile-pi:
     build: compile-pi
     image: masq-compile-pi
