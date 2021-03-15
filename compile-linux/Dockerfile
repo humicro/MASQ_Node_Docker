@@ -19,6 +19,5 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs --output rustup.sh
     rm ./rustup.sh
 ENV PATH="/home/node/.cargo/bin:$PATH"
 
-# Compilation script
-COPY --chown=node:node compile-linux.sh ./
-RUN chmod +x ./compile-linux.sh
+## Run compilation script
+CMD [ "bash", "-c", "chmod +x ./compile-linux.sh && ./compile-linux.sh" ]

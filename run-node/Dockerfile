@@ -18,3 +18,6 @@ WORKDIR /home/node
 # Config Node Helper
 RUN sudo apt-get install -y python3 python3-pip && \
     sudo pip3 install requests tomlkit
+
+## Run MASQ Node
+CMD [ "bash", "-c", "python3 helper.py && sudo MASQNode --config-file /home/node/config.toml" ]

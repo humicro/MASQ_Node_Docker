@@ -1,3 +1,5 @@
+#! /bin/bash
+
 # Update OS
 sudo apt-get update
 sudo apt-get -y upgrade

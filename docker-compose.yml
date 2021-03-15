@@ -4,10 +4,10 @@ services:
   masq-compile-linux:
     build: compile-linux
     image: masq-compile-linux
-    command: sh -c ./compile-linux.sh
     volumes:
       - ./builds:/home/node/builds
       - .cargo/registry:/home/node/.cargo/registry
+      - ./compile-linux/compile-linux.sh:/home/node/compile-linux.sh
   masq-run-node:
     environment:
       - MASQ_CLANDESTINE_PORT=13579
@@ -20,7 +20,6 @@ services:
       context: .
       dockerfile: run-node/Dockerfile
     image: masq-run-node
-    command: bash -c "python3 helper.py && sudo MASQNode --config-file /home/node/config.toml"
     volumes:
       - ./builds/linux-x86-64:/usr/local/bin/
       - ./run-node/config.toml:/home/node/config.toml
@@ -28,7 +27,7 @@ services:
   masq-compile-pi:
     build: compile-pi
     image: masq-compile-pi
-    command: sh -c ./compile-pi.sh
     volumes:
       - ./builds:/home/node/builds
       - .cargo/registry:/home/node/.cargo/registry
+      - ./compile-pi/compile-pi.sh:/home/node/compile-pi.sh
