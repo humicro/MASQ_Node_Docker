@@ -2,12 +2,14 @@ version: "3"
 
 services:
   masq-compile-linux:
+    environment:
+      - BUILD_DIR=linux-x86-64
     build: compile-linux
     image: masq-compile-linux
     volumes:
       - ./builds:/home/node/builds
       - .cargo/registry:/home/node/.cargo/registry
-      - ./compile-linux/compile-linux.sh:/home/node/compile-linux.sh
+      - ./scripts/compile.sh:/home/node/compile.sh
   masq-run-node:
     environment:
       - MASQ_CLANDESTINE_PORT=13579
@@ -25,9 +27,11 @@ services:
       - ./run-node/config.toml:/home/node/config.toml
       - ./run-node/helper.py:/home/node/helper.py
   masq-compile-pi:
+    environment:
+      - BUILD_DIR=rpi-arm6
     build: compile-pi
     image: masq-compile-pi
     volumes:
       - ./builds:/home/node/builds
       - .cargo/registry:/home/node/.cargo/registry
-      - ./compile-pi/compile-pi.sh:/home/node/compile-pi.sh
+      - ./scripts/compile.sh:/home/node/compile.sh

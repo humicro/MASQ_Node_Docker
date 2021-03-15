@@ -142,4 +142,4 @@ COPY --from=GNU-TOOLCHAIN-RPI-ARM6 /opt/cross-pi-gcc /opt/cross-pi-gcc
 ENV PATH="/opt/cross-pi-gcc/bin:${PATH}"
 
 # Run compilation script
-CMD [ "bash", "-c", "chmod +x ./compile-pi.sh && ./compile-pi.sh" ]
+CMD [ "bash", "-c", "chmod +x ./compile.sh && ./compile.sh" ]
