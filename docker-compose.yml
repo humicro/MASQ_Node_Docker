@@ -34,4 +34,5 @@ services:
     volumes:
       - ./builds:/home/node/builds
       - .cargo/registry:/home/node/.cargo/registry
+      - ./compile-pi/cargo_config_pi_arm6:/home/node/.cargo/config
       - ./scripts/compile.sh:/home/node/compile.sh

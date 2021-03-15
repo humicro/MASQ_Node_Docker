@@ -135,7 +135,6 @@ ENV PATH="/home/node/.cargo/bin:$PATH"
 # Install Rust cross compilation target for Raspberry Pi
 ENV RUST_CROSS_TARGET=arm-unknown-linux-gnueabihf
 RUN rustup target add $RUST_CROSS_TARGET
-COPY --chown=node:node cargo_config_pi_arm6 .cargo/config
 
 # Install GCC arm6 toolchain for Raspberry Pi
 COPY --from=GNU-TOOLCHAIN-RPI-ARM6 /opt/cross-pi-gcc /opt/cross-pi-gcc
