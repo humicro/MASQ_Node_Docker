@@ -38,3 +38,16 @@ services:
       - .src:/home/node/.src
       - ./compile-pi/cargo_config_pi_arm6:/home/node/.cargo/config
       - ./scripts/compile.sh:/home/node/compile.sh
+  masq-compile-cross:
+    build: compile-cross
+    image: masq-compile-cross
+    environment:
+      - TARGET_ARCHITECTURE=mipsel-unknown-linux-gnu
+      - BUILD_DIR=cross
+    volumes: 
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./builds:/home/node/builds
+      - .cargo/registry:/home/node/.cargo/registry
+      - .src:/src
+      - ./compile-cross/compile-cross.sh:/home/node/compile-cross.sh
+    working_dir: /src

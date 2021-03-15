@@ -53,6 +53,22 @@ Compiled `MASQ Node` `arm6` binaries are located under directory `builds/rpi-arm
 
 This build targets `arm6` architecture (Raspberry Pi 1 & Zero), but should also be compatible with newer versions (Raspberry Pi 2, 3 & 4). You are recommended to run these binaries using the latest official operating system [`Raspberry Pi OS 32-bit`](https://www.raspberrypi.org/software/operating-systems/#raspberry-pi-os-32-bit).
 
+### Cross compilation to other generic archetectures
+By utilizing [`cross`](https://github.com/rust-embedded/cross) and `docker-in-docker`, it is now pretty easy to cross compile `MASQ Node` to various generic architectures as listed [here](https://github.com/rust-embedded/cross#supported-targets).
+
+```bash
+# If you have not done so, build the Docker image "masq-compile-cross" first
+$ docker-compose build masq-compile-cross
+
+# Then edit TARGET_ARCHITECTURE in docker-compose.yml to your selected target
+# The default option is set as mipsel-unknown-linux-gnu
+
+# Cross compile MASQ Node
+$ docker-compose run masq-compile-cross
+```
+
+Compiled `MASQ Node` binaries are located under sub directories under `builds/cross`.
+
 ## Testing/Hosting Tasks
 
 Spin out a `Debian Slim` lightweight docker server to run the compiled `MASQ Node` binaries for testing and hosting.
