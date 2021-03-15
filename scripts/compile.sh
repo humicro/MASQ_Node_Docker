@@ -24,23 +24,20 @@ else
     git clone https://github.com/MASQ-Project/Node.git
 fi
 cp -r ~/.src ~/src
+
+cd ~/src/Node
 # Compile MASQNode
-cd ~/src/Node/node
-cargo build --release --verbose
-cp ~/src/Node/node/target/${RUST_CROSS_TARGET}/release/MASQNode ${BUILD_TARGET_PATH}/
+cargo build --manifest-path node/Cargo.toml --release --verbose
+cp node/target/${RUST_CROSS_TARGET}/release/MASQNode ${BUILD_TARGET_PATH}/
 # Compile masq
-cd ~/src/Node/masq
-cargo build --release --verbose
-cp ~/src/Node/node/target/${RUST_CROSS_TARGET}/release/masq ${BUILD_TARGET_PATH}/
+cargo build --manifest-path masq/Cargo.toml --release --verbose
+cp node/target/${RUST_CROSS_TARGET}/release/masq ${BUILD_TARGET_PATH}/
 # Compile dns_utility
-cd ~/src/Node/dns_utility
-cargo build --release --verbose
-cp ~/src/Node/dns_utility/target/${RUST_CROSS_TARGET}/release/dns_utility ${BUILD_TARGET_PATH}/
+cargo build --manifest-path dns_utility/Cargo.toml --release --verbose
+cp dns_utility/target/${RUST_CROSS_TARGET}/release/dns_utility ${BUILD_TARGET_PATH}/
 # Compile port_exposer
-cd ~/src/Node/port_exposer
-cargo build --release --verbose
-cp ~/src/Node/port_exposer/target/${RUST_CROSS_TARGET}/release/port_exposer ${BUILD_TARGET_PATH}/
+cargo build --manifest-path port_exposer/Cargo.toml --release --verbose
+cp port_exposer/target/${RUST_CROSS_TARGET}/release/port_exposer ${BUILD_TARGET_PATH}/
 # Compile automap
-cd ~/src/Node/automap
-cargo build --release --verbose
-cp ~/src/Node/automap/target/${RUST_CROSS_TARGET}/release/automap ${BUILD_TARGET_PATH}/
+cargo build --manifest-path automap/Cargo.toml --release --verbose
+cp automap/target/${RUST_CROSS_TARGET}/release/automap ${BUILD_TARGET_PATH}/
