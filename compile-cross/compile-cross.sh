@@ -14,8 +14,11 @@ if [ -d /src/Node ]; then
     cd /src/Node
     
     # discrad any local change
-    git clean -fd
     git reset --hard origin/master
+    git clean -fd
+
+    # remove old targets
+    rm -r /src/Node/*/target
 
     # keep repo updated
     git pull
