@@ -29,6 +29,11 @@ fi
 cp -r ~/.src ~/src
 
 cd ~/src/Node
+if [ $ENABLE_TEST ]; then
+    CROSS_MODE=test
+else
+	CROSS_MODE=build
+fi
 # Compile MASQNode
 cargo build --manifest-path node/Cargo.toml --release --verbose
 cp node/target/${RUST_CROSS_TARGET}/release/MASQNode ${BUILD_TARGET_PATH}/

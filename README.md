@@ -73,6 +73,10 @@ Compiled `MASQ Node` binaries are located in sub directories under `builds/cross
 
 Note the targets here are using generic settings, without any additional optimization for device architecture or `MASQ` code. So it may or may not work for each target.
 
+### Enable Tests
+
+You may enable tests during compilation by setting `ENABLE_TEST` to `True` for the corresponding service in `docker-compose.yml`. It works for both the native compilation (`masq-compile-linux`) and generic cross compilations (`masq-compile-cross`). `ENABLE_TEST` is `False` by default.
+
 ## Testing/Hosting Tasks
 
 Spin out a `Debian Slim` lightweight docker server to run the compiled `MASQ Node` binaries for testing and hosting.

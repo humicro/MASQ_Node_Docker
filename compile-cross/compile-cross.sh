@@ -31,20 +31,25 @@ fi
 sudo chmod 666 /var/run/docker.sock
 
 cd /src/Node
+if [ $ENABLE_TEST ]; then
+    CROSS_MODE=test
+else
+	CROSS_MODE=build
+fi
 # Compile MASQNode
-cross build --manifest-path node/Cargo.toml --target $TARGET_ARCHITECTURE --release
+cross $CROSS_MODE --manifest-path node/Cargo.toml --target $TARGET_ARCHITECTURE --release
 cp node/target/${TARGET_ARCHITECTURE}/release/MASQNode ${BUILD_TARGET_PATH}/
 # Compile masq
-cross build --manifest-path masq/Cargo.toml --target $TARGET_ARCHITECTURE --release
+cross $CROSS_MODE --manifest-path masq/Cargo.toml --target $TARGET_ARCHITECTURE --release
 cp masq/target/${TARGET_ARCHITECTURE}/release/masq ${BUILD_TARGET_PATH}/
 # Compile dns_utility
-cross build --manifest-path dns_utility/Cargo.toml --target $TARGET_ARCHITECTURE --release
+cross $CROSS_MODE --manifest-path dns_utility/Cargo.toml --target $TARGET_ARCHITECTURE --release
 cp dns_utility/target/${TARGET_ARCHITECTURE}/release/dns_utility ${BUILD_TARGET_PATH}/
 # Compile port_exposer
-cross build --manifest-path port_exposer/Cargo.toml --target $TARGET_ARCHITECTURE --release
+cross $CROSS_MODE --manifest-path port_exposer/Cargo.toml --target $TARGET_ARCHITECTURE --release
 cp port_exposer/target/${TARGET_ARCHITECTURE}/release/port_exposer ${BUILD_TARGET_PATH}/
 # Compile automap
-cross build --manifest-path automap/Cargo.toml --target $TARGET_ARCHITECTURE --release
+cross $CROSS_MODE --manifest-path automap/Cargo.toml --target $TARGET_ARCHITECTURE --release
 cp automap/target/${TARGET_ARCHITECTURE}/release/automap ${BUILD_TARGET_PATH}/
 
 # Set Docker Permission to default

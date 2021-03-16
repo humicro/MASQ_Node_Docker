@@ -4,6 +4,7 @@ services:
   masq-compile-linux:
     environment:
       - BUILD_DIR=linux-x86-64
+      - ENABLE_TEST=False
     build: compile-linux
     image: masq-compile-linux
     volumes:
@@ -44,7 +45,8 @@ services:
     environment:
       - TARGET_ARCHITECTURE=mipsel-unknown-linux-gnu
       - BUILD_DIR=cross
-    volumes: 
+      - ENABLE_TEST=False
+    volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./builds:/home/node/builds
       - .cargo/registry:/home/node/.cargo/registry
